@@ -222,3 +222,39 @@ describe('Bataller Paulina — construirCuerpoEmail y enmascararEmail', () => {
     expect(enmascararEmail('a@x.com')).toBe('a***@x.com');
   });
 });
+
+
+// ============================================================================
+// Responsable: Lee Maria Luz
+// Funciones: esElegibleParaRecordatorio (3 tests) + puedeEliminarPlantilla (2 tests)
+// ============================================================================
+describe('Lee Maria Luz — esElegibleParaRecordatorio y puedeEliminarPlantilla', () => {
+  test('[esElegibleParaRecordatorio] caso normal: turno a más de 24hs de la reserva es elegible', () => {
+    const reserva = new Date('2026-06-10T10:00:00');
+    const turno = new Date('2026-06-12T10:00:00'); // +48hs
+    expect(esElegibleParaRecordatorio(turno, reserva)).toBe(true);
+  });
+
+  test('[esElegibleParaRecordatorio] caso de error: turno a menos de 24hs (reserva de último momento) no es elegible', () => {
+    const reserva = new Date('2026-06-10T10:00:00');
+    const turno = new Date('2026-06-10T20:00:00'); // +10hs
+    expect(esElegibleParaRecordatorio(turno, reserva)).toBe(false);
+  });
+
+  test('[esElegibleParaRecordatorio] caso borde: turno a exactamente 24hs es elegible (límite inclusivo)', () => {
+    const reserva = new Date('2026-06-10T10:00:00');
+    const turno = new Date('2026-06-11T10:00:00'); // +24hs exactas
+    expect(esElegibleParaRecordatorio(turno, reserva)).toBe(true);
+  });
+
+  test('[puedeEliminarPlantilla] caso borde: sin plantillas registradas del tipo (0) también queda bloqueado', () => {
+    const resultado = puedeEliminarPlantilla({ cantidadPlantillasDelTipo: 0, esPorDefecto: false });
+    expect(resultado.permitido).toBe(false);
+    expect(resultado.motivo).toBe('UNICA_DEL_TIPO');
+  });
+
+  test('[puedeEliminarPlantilla] caso normal: con 3 plantillas del tipo y sin ser la por defecto, permite eliminar', () => {
+    const resultado = puedeEliminarPlantilla({ cantidadPlantillasDelTipo: 3, esPorDefecto: false });
+    expect(resultado.permitido).toBe(true);
+  });
+});
