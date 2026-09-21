@@ -13,7 +13,7 @@ describe('AgendaYA - M06 Plantillas de Email', () => {
     cy.get('[data-cy="nombre-input"]').type('Recordatorio incompleto')
     cy.get('[data-cy="tipo-select"]').select('recordatorio')
     cy.get('[data-cy="asunto-input"]').type('Recordatorio: tu turno es mañana')
-    cy.get('[data-cy="saludo-input"]').type('Hola {nombre_invitado}')
+    cy.get('[data-cy="saludo-input"]').type('Hola Martina')
     // cuerpo-input queda vacío a propósito
     cy.get('[data-cy="firma-input"]').type('Dr. García')
 
