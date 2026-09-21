@@ -258,3 +258,30 @@ describe('Lee Maria Luz — esElegibleParaRecordatorio y puedeEliminarPlantilla'
     expect(resultado.permitido).toBe(true);
   });
 });
+// ============================================================================
+// Responsable: Sanchez Ignacio
+// Funciones: enmascararEmail (3 tests) + esElegibleParaRecordatorio (2 tests)
+// ============================================================================
+describe('Sanchez Ignacio — enmascararEmail y esElegibleParaRecordatorio', () => {
+  test('[enmascararEmail] caso normal: funciona igual con dominios con subdominio', () => {
+    expect(enmascararEmail('maria.garcia@clinica.agendaya.com')).toBe('ma***@clinica.agendaya.com');
+  });
+
+  test('[enmascararEmail] caso de error: email con formato inválido lanza excepción y no se enmascara', () => {
+    expect(() => enmascararEmail('usuario@')).toThrow('Email inválido');
+  });
+
+  test('[enmascararEmail] caso de error: string vacío lanza excepción', () => {
+    expect(() => enmascararEmail('')).toThrow('Email inválido');
+  });
+
+  test('[esElegibleParaRecordatorio] caso de error: fecha inválida lanza excepción', () => {
+    expect(() => esElegibleParaRecordatorio('fecha-invalida', new Date())).toThrow('Fecha inválida');
+  });
+
+  test('[esElegibleParaRecordatorio] caso borde: turno en el pasado respecto de la reserva no es elegible', () => {
+    const reserva = new Date('2026-06-10T10:00:00');
+    const turno = new Date('2026-06-09T10:00:00'); // turno "anterior" a la reserva
+    expect(esElegibleParaRecordatorio(turno, reserva)).toBe(false);
+  });
+});
