@@ -46,5 +46,29 @@ describe('Nuñez Martina — esEmailValido y generarAsunto', () => {
       .toBe('Recordatorio: tu turno con Dr. García es mañana');
   });
 });
+// ============================================================================
+// Responsable: Aguiar Josefina
+// Funciones: calcularEsPorDefecto (3 tests) + puedeQuitarPorDefecto (2 tests)
+// ============================================================================
+describe('Aguiar Josefina — calcularEsPorDefecto y puedeQuitarPorDefecto', () => {
+  test('[calcularEsPorDefecto] caso normal: primera plantilla del tipo queda por defecto aunque el tick esté apagado', () => {
+    expect(calcularEsPorDefecto({ existeOtraPlantillaDelTipo: false, tickActivado: false })).toBe(true);
+  });
 
+  test('[calcularEsPorDefecto] caso normal: nueva plantilla con tick activado desplaza a la anterior', () => {
+    expect(calcularEsPorDefecto({ existeOtraPlantillaDelTipo: true, tickActivado: true })).toBe(true);
+  });
+
+  test('[calcularEsPorDefecto] caso normal: nueva plantilla sin tick activado queda como alternativa', () => {
+    expect(calcularEsPorDefecto({ existeOtraPlantillaDelTipo: true, tickActivado: false })).toBe(false);
+  });
+
+  test('[puedeQuitarPorDefecto] caso de error: no se puede quitar el tick si es la única plantilla del tipo', () => {
+    expect(puedeQuitarPorDefecto({ esUnicaPlantillaDelTipo: true })).toBe(false);
+  });
+
+  test('[puedeQuitarPorDefecto] caso normal: se puede quitar el tick si existe otra plantilla del tipo', () => {
+    expect(puedeQuitarPorDefecto({ esUnicaPlantillaDelTipo: false })).toBe(true);
+  });
+});
 
