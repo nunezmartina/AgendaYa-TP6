@@ -1,4 +1,4 @@
-// Responsable: Santibañez Lucia
+// Responsable: Bataller Paulina
 // Flujo: Simular envío de notificación — caso exitoso (happy path)
 // Cubre: M06-R01F, US-M06-001 Escenario 1
 

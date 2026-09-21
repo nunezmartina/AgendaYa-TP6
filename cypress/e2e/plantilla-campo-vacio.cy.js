@@ -1,4 +1,4 @@
-// Responsable: Santibañez Lucia
+// Responsable: Nuñez Martina
 // Flujo: Configurar plantilla de email — error por datos inválidos (campo obligatorio vacío)
 // Cubre: criterio de aceptación 5.4 del TP6 ("formularios validan campo vacío")
 

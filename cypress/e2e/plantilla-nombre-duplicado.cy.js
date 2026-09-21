@@ -1,4 +1,4 @@
-// Responsable: Bataller Paulina
+// Responsable: Tejada Rocío
 // Flujo: Configurar plantilla de email — error por datos inválidos (nombre duplicado)
 // Cubre: M06-R04F (ALTA), US-M06-004 Escenario 4
 

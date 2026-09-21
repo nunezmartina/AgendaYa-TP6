@@ -1,4 +1,4 @@
-// Responsable: Lee Maria Luz
+// Responsable: Santibañez Lucia
 // Flujo: Simular envío de notificación — error por datos inválidos (formato de email)
 // Cubre: M06-R01F, US-M06-001 Escenario 2
 

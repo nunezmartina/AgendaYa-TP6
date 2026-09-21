@@ -1,4 +1,4 @@
-// Responsable: Bataller Paulina
+// Responsable: Aguiar Josefina
 // Flujo: Configurar plantilla de email — caso exitoso (happy path)
 // Cubre: M06-R04F (ALTA), US-M06-004 Escenario 1
 
