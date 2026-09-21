@@ -182,3 +182,43 @@ describe('Santibañez Lucia — puedeEliminarPlantilla y construirCuerpoEmail', 
     expect(variablesFaltantes).toEqual(['nombre_invitado']);
   });
 });
+
+// ============================================================================
+// Responsable: Bataller Paulina
+// Funciones: construirCuerpoEmail (3 tests) + enmascararEmail (2 tests)
+// ============================================================================
+describe('Bataller Paulina — construirCuerpoEmail y enmascararEmail', () => {
+  test('[construirCuerpoEmail] caso normal: reemplaza todas las variables presentes', () => {
+    const plantilla = 'Hola {nombre_invitado}, tu turno es el {fecha_turno}.';
+    const { cuerpo, variablesFaltantes } = construirCuerpoEmail(plantilla, {
+      nombre_invitado: 'María García',
+      fecha_turno: 'lunes 23 de junio de 2025',
+    });
+    expect(cuerpo).toBe('Hola María García, tu turno es el lunes 23 de junio de 2025.');
+    expect(variablesFaltantes).toEqual([]);
+  });
+
+  test('[construirCuerpoEmail] caso de error: detecta variables faltantes y las deja como placeholder', () => {
+    const plantilla = 'Hola {nombre_invitado}, tu turno es el {fecha_turno}.';
+    const { cuerpo, variablesFaltantes } = construirCuerpoEmail(plantilla, {
+      nombre_invitado: 'María García',
+    });
+    expect(variablesFaltantes).toEqual(['fecha_turno']);
+    expect(cuerpo).toContain('{fecha_turno}');
+  });
+
+  test('[construirCuerpoEmail] caso borde: plantilla sin variables retorna el mismo texto', () => {
+    const plantilla = 'Este es un texto fijo sin variables.';
+    const { cuerpo, tieneVariables } = construirCuerpoEmail(plantilla, {});
+    expect(cuerpo).toBe(plantilla);
+    expect(tieneVariables).toBe(false);
+  });
+
+  test('[enmascararEmail] caso normal: conserva los primeros 2 caracteres y enmascara el resto', () => {
+    expect(enmascararEmail('usuario@dominio.com')).toBe('us***@dominio.com');
+  });
+
+  test('[enmascararEmail] caso borde: local-part de un solo carácter se enmascara igual', () => {
+    expect(enmascararEmail('a@x.com')).toBe('a***@x.com');
+  });
+});
