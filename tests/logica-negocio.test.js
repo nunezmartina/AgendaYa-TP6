@@ -72,3 +72,45 @@ describe('Aguiar Josefina — calcularEsPorDefecto y puedeQuitarPorDefecto', () 
   });
 });
 
+// ============================================================================
+// Responsable: Tejada Rocío
+// Funciones: validarCamposPlantilla (3 tests) + calcularEsPorDefecto (2 tests)
+// ============================================================================
+describe('Tejada Rocío — validarCamposPlantilla y calcularEsPorDefecto', () => {
+  test('[validarCamposPlantilla] caso borde: un campo con solo espacios en blanco cuenta como vacío', () => {
+    const resultado = validarCamposPlantilla({
+      nombre: 'Plantilla X', asunto: 'Asunto', saludo: '   ', cuerpo: 'Cuerpo', firma: 'Firma',
+    });
+    expect(resultado.valido).toBe(false);
+    expect(resultado.camposFaltantes).toEqual(['saludo']);
+  });
+
+  test('[validarCamposPlantilla] caso de error: objeto de campos vacío marca los 5 campos como faltantes', () => {
+    const resultado = validarCamposPlantilla({});
+    expect(resultado.valido).toBe(false);
+    expect(resultado.camposFaltantes).toHaveLength(5);
+  });
+
+  test('[validarCamposPlantilla] caso normal: no marca como faltante un campo con contenido real', () => {
+    const resultado = validarCamposPlantilla({
+      nombre: 'X', asunto: 'Y', saludo: 'Z', cuerpo: 'Contenido válido', firma: 'F',
+    });
+    expect(resultado.camposFaltantes).not.toContain('cuerpo');
+  });
+
+  test('[calcularEsPorDefecto] caso borde: al editar sin tick activado, deja de calcularse como por defecto', () => {
+    // Nota: el bloqueo real de "no permitir quitar el tick" se valida aparte
+    // con puedeQuitarPorDefecto; esta función solo calcula el resultado pedido.
+    const resultado = calcularEsPorDefecto({
+      existeOtraPlantillaDelTipo: true, tickActivado: false, yaEraPorDefecto: true,
+    });
+    expect(resultado).toBe(false);
+  });
+
+  test('[calcularEsPorDefecto] caso borde: primera plantilla del tipo con tick ya activado también da por defecto', () => {
+    const resultado = calcularEsPorDefecto({
+      existeOtraPlantillaDelTipo: false, tickActivado: true, yaEraPorDefecto: false,
+    });
+    expect(resultado).toBe(true);
+  });
+});
