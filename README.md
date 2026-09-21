@@ -97,5 +97,4 @@ módulo M06 — **8 tests en total, uno por cada integrante del equipo**:
 - Todos los elementos interactivos tienen atributo `data-cy` para que los
   selectores de Cypress no dependan de clases CSS ni de texto visible.
 - Si otro integrante del equipo clona el repositorio y, siguiendo estos
-  pasos, no logra levantar el frontend ni correr ambas suites de test, este
-  README está incompleto y debe corregirse.
+  pasos, no logra levantar el frontend ni correr ambas suites de test
