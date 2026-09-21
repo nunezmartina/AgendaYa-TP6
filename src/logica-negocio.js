@@ -145,6 +145,32 @@ function esElegibleParaRecordatorio(fechaHoraTurno, fechaHoraReserva = new Date(
   return diferencia >= VEINTICUATRO_HS_MS;
 }
 
+// ---------------------------------------------------------------------------
+// 7. Validación de campos obligatorios del formulario de plantilla
+//    (M06-R04F — ALTA, criterio de aceptación 5.4 del TP6: "campo vacío")
+// ---------------------------------------------------------------------------
+function validarCamposPlantilla(campos = {}) {
+  const obligatorios = ['nombre', 'asunto', 'saludo', 'cuerpo', 'firma'];
+  const camposFaltantes = obligatorios.filter((campo) => {
+    const valor = campos[campo];
+    return valor === undefined || valor === null || String(valor).trim() === '';
+  });
+  return { valido: camposFaltantes.length === 0, camposFaltantes };
+}
+
+// ---------------------------------------------------------------------------
+// 8. Enmascarado del email del destinatario para el historial de
+//    notificaciones (US-M06-009: "destinatario enmascarado: us***@email.com")
+// ---------------------------------------------------------------------------
+function enmascararEmail(email) {
+  if (!esEmailValido(email)) {
+    throw new Error('Email inválido, no se puede enmascarar');
+  }
+  const [local, dominio] = email.trim().split('@');
+  const visibles = local.slice(0, 2);
+  return `${visibles}***@${dominio}`;
+}
+
 module.exports = {
   esEmailValido,
   generarAsunto,
@@ -153,4 +179,6 @@ module.exports = {
   construirCuerpoEmail,
   puedeEliminarPlantilla,
   esElegibleParaRecordatorio,
+  validarCamposPlantilla,
+  enmascararEmail,
 };
