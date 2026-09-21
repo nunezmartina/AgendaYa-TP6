@@ -114,3 +114,38 @@ describe('Tejada Rocío — validarCamposPlantilla y calcularEsPorDefecto', () =
     expect(resultado).toBe(true);
   });
 });
+
+// ============================================================================
+// Responsable: Perez Juliana
+// Funciones: generarAsunto (3 tests) + validarCamposPlantilla (2 tests)
+// ============================================================================
+describe('Perez Juliana — generarAsunto y validarCamposPlantilla', () => {
+  test('[generarAsunto] caso normal: asunto de notificación al admin por nueva reserva', () => {
+    expect(generarAsunto('nueva_reserva_admin', {
+      nombreInvitado: 'María Gómez', fecha: '14/05', hora: '10:30',
+    })).toBe('Nueva reserva — María Gómez — 14/05 10:30');
+  });
+
+  test('[generarAsunto] caso normal: asunto de cancelación al admin', () => {
+    expect(generarAsunto('cancelacion_admin', {
+      nombreInvitado: 'Juan Pérez', fecha: '12/05', hora: '15:00',
+    })).toBe('Cancelación — Juan Pérez — 12/05 15:00');
+  });
+
+  test('[generarAsunto] caso de error: tipo de notificación inexistente lanza excepción', () => {
+    expect(() => generarAsunto('tipo_inventado', {})).toThrow('Tipo de notificación desconocido');
+  });
+
+  test('[validarCamposPlantilla] caso normal: todos los campos completos es válido', () => {
+    const resultado = validarCamposPlantilla({
+      nombre: 'Confirmación formal', asunto: 'Asunto', saludo: 'Hola', cuerpo: 'Cuerpo', firma: 'Firma',
+    });
+    expect(resultado).toEqual({ valido: true, camposFaltantes: [] });
+  });
+
+  test('[validarCamposPlantilla] caso de error: detecta varios campos faltantes a la vez', () => {
+    const resultado = validarCamposPlantilla({ nombre: 'Recordatorio', asunto: '', saludo: undefined, cuerpo: 'Texto', firma: '' });
+    expect(resultado.valido).toBe(false);
+    expect(resultado.camposFaltantes).toEqual(expect.arrayContaining(['asunto', 'saludo', 'firma']));
+  });
+});
