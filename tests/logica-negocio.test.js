@@ -149,3 +149,36 @@ describe('Perez Juliana — generarAsunto y validarCamposPlantilla', () => {
     expect(resultado.camposFaltantes).toEqual(expect.arrayContaining(['asunto', 'saludo', 'firma']));
   });
 });
+
+// ============================================================================
+// Responsable: Santibañez Lucia
+// Funciones: puedeEliminarPlantilla (3 tests) + construirCuerpoEmail (2 tests)
+// ============================================================================
+describe('Santibañez Lucia — puedeEliminarPlantilla y construirCuerpoEmail', () => {
+  test('[puedeEliminarPlantilla] caso de error: bloquea si es la única plantilla del tipo', () => {
+    const resultado = puedeEliminarPlantilla({ cantidadPlantillasDelTipo: 1, esPorDefecto: false });
+    expect(resultado).toEqual({ permitido: false, motivo: 'UNICA_DEL_TIPO' });
+  });
+
+  test('[puedeEliminarPlantilla] caso de error: bloquea si es la por defecto sin reemplazo designado', () => {
+    const resultado = puedeEliminarPlantilla({ cantidadPlantillasDelTipo: 2, esPorDefecto: true });
+    expect(resultado).toEqual({ permitido: false, motivo: 'ES_POR_DEFECTO_SIN_REEMPLAZO' });
+  });
+
+  test('[puedeEliminarPlantilla] caso normal: permite eliminar una plantilla alternativa cuando hay más de una', () => {
+    const resultado = puedeEliminarPlantilla({ cantidadPlantillasDelTipo: 2, esPorDefecto: false });
+    expect(resultado).toEqual({ permitido: true, motivo: null });
+  });
+
+  test('[construirCuerpoEmail] caso normal: una variable repetida se reemplaza en todas sus apariciones', () => {
+    const plantilla = '{nombre_invitado}, confirmamos tu turno {nombre_invitado}.';
+    const { cuerpo } = construirCuerpoEmail(plantilla, { nombre_invitado: 'Pedro' });
+    expect(cuerpo).toBe('Pedro, confirmamos tu turno Pedro.');
+  });
+
+  test('[construirCuerpoEmail] caso borde: variable con valor de string vacío se trata como faltante', () => {
+    const plantilla = 'Hola {nombre_invitado}.';
+    const { variablesFaltantes } = construirCuerpoEmail(plantilla, { nombre_invitado: '' });
+    expect(variablesFaltantes).toEqual(['nombre_invitado']);
+  });
+});
